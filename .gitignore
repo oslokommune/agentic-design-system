@@ -1,0 +1,8 @@
+.devcontainer/devcontainer.env
+.transcripts/
+.memories/
+.tmp/
+
+# Python
+__pycache__/
+*.pyc

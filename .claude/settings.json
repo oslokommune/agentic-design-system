@@ -1,0 +1,76 @@
+{
+  "includeCoAuthoredBy": false,
+  "permissions": {
+    "allow": [
+      "Bash(bb create:*)",
+      "Bash(bb issue:*)",
+      "Bash(bb next:*)",
+      "Bash(bb pr:*)",
+      "Bash(bb view:*)",
+      "Bash(cat:*)",
+      "Bash(find:*)",
+      "Bash(gh project item-list:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m :*)",
+      "Bash(git commit:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(ok pkg add :*)",
+      "Bash(ok pkg install)",
+      "Bash(ok pkg install:*)",
+      "Bash(ok pkg update)",
+      "Bash(sort:*)",
+      "Bash(test:*)",
+      "Bash(tree:*)",
+      "Skill(dig-ai-platform:bedrock)",
+      "Skill(dig-ai-platform:claude-hooks)",
+      "Skill(dig-ai-platform:python)",
+      "Skill(dig-ai-platform:subagent)",
+      "Skill(dig-designsystem:punkt-docs)",
+      "Skill(dig-iac-platform:ok-boilerplate-templates)"
+    ],
+    "deny": [
+      "Bash(gh project delete:*)",
+      "Bash(gh project field-delete:*)",
+      "Bash(gh project item-delete:*)",
+      "Read(**.ssh/**)",
+      "Read(*.crt)",
+      "Read(*.csr)",
+      "Read(*.key)",
+      "Read(*.p12)",
+      "Read(*.pem)",
+      "Read(*.pfx)",
+      "Read(.aws/**)",
+      "Read(.devcontainer/devcontainer.env)",
+      "Read(.docker/config.json)",
+      "Read(.env**)",
+      "Read(.gnupg/**)",
+      "Read(.secrets**)",
+      "Read(id_ecdsa*)",
+      "Read(id_ed25519*)",
+      "Read(id_rsa*)",
+      "Read(secrets**)"
+    ],
+    "defaultMode": "acceptEdits"
+  },
+  "enabledPlugins": {
+    "ai-platform@dig": false,
+    "iac-platform@dig": false,
+    "claude-today@dig": false,
+    "betterbeads@dig": false
+  },
+  "extraKnownMarketplaces": {
+    "dig": {
+      "source": {
+        "source": "github",
+        "repo": "oslokommune/claude-marketplace"
+      }
+    },
+    "dig-experimental": {
+      "source": {
+        "source": "github",
+        "repo": "oslokommune/claude-marketplace-experimental"
+      }
+    }
+  }
+}
