@@ -126,4 +126,4 @@ Need a value the vocabulary lacks? Prefer **adding a token** (or a property/keyw
 - No icon component: `alert` has an icon slot as a placeholder.
 - The growth/consolidation loops (promote recurring overrides, merge near-duplicate
   tokens, delete unused nodes) are enabled by the data model and the reports, but not
-  implemented here.
+  implemented here - see `docs/loops.md` for the intended processes.
