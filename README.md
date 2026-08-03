@@ -4,6 +4,25 @@ The source of truth is **data, not code**: a JSON spec (`spec/`) describing toke
 components. A compiler (`ds-compile`) turns that spec into a consumable Django app.
 Nobody hand-writes CSS or templates; you edit the spec and recompile.
 
+## The Claude Code plugin
+
+This repo doubles as the **agentic-design-system** plugin (`.claude-plugin/`,
+`skills/`). The plugin teaches agents how to operate a system like this one in any
+project:
+
+- **`ds-authoring`** — day-to-day craft: authoring tokens/components in the closed
+  spec, using the override escape hatch honestly, compiling, consuming `{% ds_* %}`
+  tags in Django.
+- **`loop-1-expand`** — the growth loop: mine override telemetry and frontend usage
+  for recurring needs, promote them into the spec, retire the motivating overrides.
+- **`loop-2-contract`** — the compression loop: find dead and duplicate spec nodes,
+  merge/delete with atomic reference migration, prove the change output-preserving.
+
+Projects point the skills at their layout via `ds.config.json` (spec roots, frontend
+directories, compile/verify commands). The design system may be embedded in the
+project (this repo's topology) or live in a separate repo that `spec.core` points at.
+The lifecycle philosophy behind the loops is in `docs/loops.md`.
+
 ## Three principles
 
 **1. Closed data spec.** Every design value in a component spec is a reference to a

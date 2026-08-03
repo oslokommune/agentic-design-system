@@ -1,0 +1,18 @@
+{
+  "$description": "Project-level configuration for the agentic-design-system plugin. Tells the skills where the spec lives, which spec roots are product-owned, where frontend code consumes the system, and how to compile/verify.",
+  "spec": {
+    "core": "spec",
+    "products": ["demo/spec"]
+  },
+  "frontend": ["demo"],
+  "commands": {
+    "check": "uv run ds-compile --check --spec spec --spec demo/spec",
+    "build": "uv run ds-compile --spec spec --spec demo/spec --out build",
+    "test": "uv run pytest",
+    "render": "uv run python demo/render_demo.py"
+  },
+  "artifacts": {
+    "overridesReport": "build/overrides-report.json",
+    "renderedPages": ["demo/out.html"]
+  }
+}
