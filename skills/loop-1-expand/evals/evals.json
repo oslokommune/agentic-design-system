@@ -1,0 +1,21 @@
+{
+  "skill_name": "loop-1-expand",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Run the expand loop on the design system project at <repo> — promote whatever the override telemetry says deserves promoting, retire the overrides it explains, and commit when done.",
+      "expected_output": "The recurring highlight-tint (#fff7ed, 3 occurrences) and 3rem spacing (2 occurrences) overrides are promoted into tokens (base + semantic alias, named for meaning); the three motivating overrides are rewritten as token references and deleted; the one-off campaign-gradient override in demo/spec is left untouched; ds-compile --check and pytest green; override count drops from 4 to 1; one conventional commit.",
+      "files": ["fixtures/loop1 (repo copy with product-a, product-b, demo spec roots seeded with recurring overrides)"],
+      "assertions": [
+        "compile check exits 0 across all four spec roots",
+        "full pytest suite passes",
+        "overrides report count is below the baseline of 4",
+        "the three highlight-cluster override ids no longer appear in any spec file",
+        "#fff7ed exists exactly once, in a token base scale; zero occurrences in product spec files",
+        "a 3rem spacing step exists in the size tokens",
+        "the one-off ovr.promo-banner.campaign-gradient override is still present (one-offs are telemetry, not bugs)",
+        "a new git commit exists on top of the fixture commit"
+      ]
+    }
+  ]
+}

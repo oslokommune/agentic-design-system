@@ -1,0 +1,22 @@
+{
+  "skill_name": "loop-2-contract",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Run the contract loop on the design system project at <repo> — find and remove bloat in the spec (dead nodes, duplicates) without changing what products render, and commit when done.",
+      "expected_output": "Dead alias color.text.subtle deleted; duplicate base token color.base.gray.50 merged into neutral.50; same-meaning alias color.surface.soft merged into color.surface.muted with the marketing panel consumer rewritten; dead near-duplicate component badge deleted with its test consumers (pinned component sets) migrated in the same commit; distinct-meaning aliases sharing a value (info.default / action.primary) NOT merged; check + pytest green; rendered demo output unchanged.",
+      "files": ["fixtures/loop2 (repo copy seeded with a dead alias, duplicate base value, same-meaning alias duplicate with a consumer, and a dead near-duplicate component pinned by tests)"],
+      "assertions": [
+        "compile check exits 0 across all three spec roots",
+        "full pytest suite passes",
+        "color.text.subtle no longer exists",
+        "color.base.gray.50 no longer exists and #f7f8fa appears exactly once in color tokens",
+        "color.surface.soft no longer exists and marketing panel references color.surface.muted",
+        "badge component file deleted and tests no longer reference badge",
+        "color.info.default and color.action.primary both still exist (semantically distinct names not welded)",
+        "rendered demo page is byte-identical to the pre-contraction render",
+        "a new git commit exists on top of the fixture commit"
+      ]
+    }
+  ]
+}
