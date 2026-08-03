@@ -1,0 +1,28 @@
+{
+  "$schema": "../schemas/tokens.schema.json",
+  "$description": "Dimension tokens: spacing scale, corner radii, border widths, icon box sizes.",
+  "size": {
+    "$type": "dimension",
+    "spacing": {
+      "none": { "$value": "0rem" },
+      "xs": { "$value": "0.25rem" },
+      "sm": { "$value": "0.5rem" },
+      "md": { "$value": "0.75rem" },
+      "lg": { "$value": "1rem" },
+      "xl": { "$value": "1.5rem" }
+    },
+    "radius": {
+      "sm": { "$value": "0.25rem" },
+      "md": { "$value": "0.5rem" },
+      "pill": { "$value": "999rem" }
+    },
+    "border": {
+      "thin": { "$value": "1px" },
+      "thick": { "$value": "2px" }
+    },
+    "icon": {
+      "sm": { "$value": "1rem" },
+      "md": { "$value": "1.25rem" }
+    }
+  }
+}

@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design system demo - compiled from spec</title>
+  <link rel="stylesheet" href="build/ds/static/ds/tokens.css">
+  <link rel="stylesheet" href="build/ds/static/ds/components.css">
+  <style>
+    /* Host page chrome only. Not part of the design system: this page is the
+       consumer, and consumers are allowed their own layout CSS. */
+    body { margin: 0; padding: 2rem; background: #fbfbfd; font-family: system-ui, sans-serif; }
+    h1 { font-size: 1.5rem; }
+    h2.section { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: #6b7280; margin: 2rem 0 0.75rem; }
+    .row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: flex-start; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+    main { max-width: 60rem; margin: 0 auto; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Design system demo</h1>
+  <p>Every element below was generated from <code>spec/</code> by <code>ds-compile</code>.</p>
+
+  <h2 class="section">Atom: button</h2>
+  <div class="row">
+    
+
+<button class="ds-button ds-button--primary ds-button--md" type="button">
+  <span class="ds-button__label">Save</span>
+</button>
+
+    
+
+<button class="ds-button ds-button--secondary ds-button--md" type="button">
+  <span class="ds-button__label">Cancel</span>
+</button>
+
+    
+
+<button class="ds-button ds-button--primary ds-button--sm" type="button">
+  <span class="ds-button__label">Small</span>
+</button>
+
+    
+
+<button class="ds-button ds-button--secondary ds-button--md" type="button" disabled>
+  <span class="ds-button__label">Disabled</span>
+</button>
+
+    
+
+<button class="ds-button ds-button--primary ds-button--md" type="button">
+  <span class="ds-button__label">From context</span>
+</button>
+
+  </div>
+
+  <h2 class="section">Atom: tag</h2>
+  <div class="row">
+    
+
+<span class="ds-tag ds-tag--neutral">Neutral</span>
+
+    
+
+<span class="ds-tag ds-tag--info">Info</span>
+
+    
+
+<span class="ds-tag ds-tag--success">Success</span>
+
+    
+
+<span class="ds-tag ds-tag--danger">Danger</span>
+
+  </div>
+
+  <h2 class="section">Atom: alert (slots: icon, default)</h2>
+  <div class="grid">
+    
+
+<div class="ds-alert ds-alert--info" role="status">
+  
+  <span class="ds-alert__icon">i</span>
+  
+  <div class="ds-alert__body">
+    
+    <strong class="ds-alert__title">Heads up</strong>
+    
+    <div class="ds-alert__message">
+      
+      Deploys are paused while the release train runs.
+    </div>
+  </div>
+</div>
+
+    
+
+<div class="ds-alert ds-alert--success" role="status">
+  
+  <div class="ds-alert__body">
+    
+    <div class="ds-alert__message">Spec compiled with zero violations.</div>
+  </div>
+</div>
+
+    
+
+<div class="ds-alert ds-alert--warning" role="status">
+  
+  <span class="ds-alert__icon">!</span>
+  
+  <div class="ds-alert__body">
+    
+    <strong class="ds-alert__title">Token drift</strong>
+    
+    <div class="ds-alert__message">
+      
+      Two colour tokens are near-duplicates and should be consolidated.
+    </div>
+  </div>
+</div>
+
+    
+
+<div class="ds-alert ds-alert--danger" role="status">
+  
+  <span class="ds-alert__icon">x</span>
+  
+  <div class="ds-alert__body">
+    
+    <strong class="ds-alert__title">Build failed</strong>
+    
+    <div class="ds-alert__message">
+      
+      A component used a raw hex value.
+    </div>
+  </div>
+</div>
+
+  </div>
+
+  <h2 class="section">Molecule: card (composes button by reference)</h2>
+  <div class="grid">
+    
+
+
+<article class="ds-card ds-card--default">
+  
+  <h3 class="ds-card__heading">Closed data spec</h3>
+  
+  <div class="ds-card__body">
+      
+      Every design value is a token reference. If it compiles, it is compliant.
+    </div>
+  
+  <div class="ds-card__actions">
+    
+
+<button class="ds-button ds-button--primary ds-button--md" type="button">
+  <span class="ds-button__label">Open spec</span>
+</button>
+
+  </div>
+  
+</article>
+
+    
+
+
+<article class="ds-card ds-card--muted">
+  
+  <h3 class="ds-card__heading">One escape hatch</h3>
+  
+  <div class="ds-card__body">
+      
+      Overrides are legal, loud and enumerable - see <code>overrides-report.json</code>.
+    </div>
+  
+  <div class="ds-card__actions">
+    
+
+<button class="ds-button ds-button--secondary ds-button--md" type="button">
+  <span class="ds-button__label">Read report</span>
+</button>
+
+  </div>
+  
+</article>
+
+    
+
+
+<article class="ds-card ds-card--default">
+  
+  <h3 class="ds-card__heading">No action</h3>
+  
+  <div class="ds-card__body">
+      
+      Omitting <code>action_label</code> removes the whole actions part of the anatomy.
+    </div>
+  
+</article>
+
+  </div>
+
+  <h2 class="section">The one override (demo spec only)</h2>
+  
+
+
+<section class="ds-promo-banner">
+  <div class="ds-promo-banner__canvas ds-override ds-o-promo-banner-campaign-gradient" data-campaign="q3">
+    <h2 class="ds-promo-banner__headline">Autumn campaign</h2>
+    
+
+<button class="ds-button ds-button--secondary ds-button--md" type="button">
+  <span class="ds-button__label">See the offer</span>
+</button>
+
+  </div>
+  
+  
+
+<div class="ds-alert ds-alert--info" role="status">
+  
+  <div class="ds-alert__body">
+    
+    <div class="ds-alert__message">
+      This banner contains the only override in the system.
+    </div>
+  </div>
+</div>
+
+  
+</section>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,103 @@
+{
+  "$schema": "../schemas/component.schema.json",
+  "id": "cmp.alert",
+  "name": "alert",
+  "level": "atom",
+  "description": "Inline feedback message. Icon slot is a placeholder: the system has no icon component yet.",
+  "props": {
+    "variant": { "type": "enum", "values": ["info", "success", "warning", "danger"], "default": "info" },
+    "title": { "type": "string", "default": null, "description": "Optional bold lead-in." }
+  },
+  "composition": [],
+  "anatomy": {
+    "node": "element",
+    "tag": "div",
+    "attrs": { "role": "status" },
+    "styles": {
+      "display": "flex",
+      "align-items": "flex-start",
+      "gap": "{size.spacing.md}",
+      "padding": "{size.spacing.lg}",
+      "border-radius": "{size.radius.md}",
+      "border-style": "solid",
+      "border-width": "{size.border.thin}",
+      "border-color": "transparent",
+      "font-family": "{font.family.sans}",
+      "font-size": "{font.size.sm}",
+      "line-height": "{font.line-height.normal}",
+      "color": "{color.text.default}"
+    },
+    "modifiers": [
+      {
+        "prop": "variant",
+        "value": "info",
+        "class": "info",
+        "styles": { "background-color": "{color.info.surface}", "border-color": "{color.info.default}" }
+      },
+      {
+        "prop": "variant",
+        "value": "success",
+        "class": "success",
+        "styles": { "background-color": "{color.success.surface}", "border-color": "{color.success.default}" }
+      },
+      {
+        "prop": "variant",
+        "value": "warning",
+        "class": "warning",
+        "styles": { "background-color": "{color.warning.surface}", "border-color": "{color.warning.default}" }
+      },
+      {
+        "prop": "variant",
+        "value": "danger",
+        "class": "danger",
+        "styles": { "background-color": "{color.danger.surface}", "border-color": "{color.danger.default}" }
+      }
+    ],
+    "children": [
+      {
+        "node": "element",
+        "tag": "span",
+        "part": "icon",
+        "when": { "slot": "icon", "filled": true },
+        "styles": {
+          "display": "inline-flex",
+          "align-items": "center",
+          "justify-content": "center",
+          "width": "{size.icon.md}",
+          "height": "{size.icon.md}",
+          "font-size": "{font.size.md}",
+          "line-height": "{font.line-height.tight}"
+        },
+        "modifiers": [
+          { "prop": "variant", "value": "info", "class": "info", "styles": { "color": "{color.info.default}" } },
+          { "prop": "variant", "value": "success", "class": "success", "styles": { "color": "{color.success.default}" } },
+          { "prop": "variant", "value": "warning", "class": "warning", "styles": { "color": "{color.warning.default}" } },
+          { "prop": "variant", "value": "danger", "class": "danger", "styles": { "color": "{color.danger.default}" } }
+        ],
+        "children": [{ "node": "slot", "name": "icon", "description": "Icon placeholder until an icon atom exists." }]
+      },
+      {
+        "node": "element",
+        "tag": "div",
+        "part": "body",
+        "styles": { "display": "flex", "flex-direction": "column", "gap": "{size.spacing.xs}" },
+        "children": [
+          {
+            "node": "element",
+            "tag": "strong",
+            "part": "title",
+            "when": { "prop": "title", "truthy": true },
+            "styles": { "font-weight": "{font.weight.bold}", "font-size": "{font.size.sm}" },
+            "children": [{ "node": "text", "prop": "title" }]
+          },
+          {
+            "node": "element",
+            "tag": "div",
+            "part": "message",
+            "children": [{ "node": "slot", "name": "default", "description": "Message body." }]
+          }
+        ]
+      }
+    ]
+  }
+}

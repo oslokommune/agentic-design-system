@@ -1,0 +1,80 @@
+{
+  "$schema": "../schemas/component.schema.json",
+  "id": "cmp.button",
+  "name": "button",
+  "level": "atom",
+  "description": "Interactive control. Two variants, two sizes.",
+  "props": {
+    "label": { "type": "string", "required": true, "description": "Visible text." },
+    "variant": { "type": "enum", "values": ["primary", "secondary"], "default": "primary" },
+    "size": { "type": "enum", "values": ["sm", "md"], "default": "md" },
+    "disabled": { "type": "boolean", "default": false }
+  },
+  "composition": [],
+  "anatomy": {
+    "node": "element",
+    "tag": "button",
+    "attrs": { "type": "button", "disabled": { "$flag": "disabled" } },
+    "styles": {
+      "display": "inline-flex",
+      "align-items": "center",
+      "justify-content": "center",
+      "gap": "{size.spacing.xs}",
+      "font-family": "{font.family.sans}",
+      "font-weight": "{font.weight.medium}",
+      "line-height": "{font.line-height.tight}",
+      "border-style": "solid",
+      "border-width": "{size.border.thin}",
+      "border-color": "transparent",
+      "border-radius": "{size.radius.sm}",
+      "text-decoration": "none",
+      "cursor": "pointer",
+      "transition-property": "background-color",
+      "transition-duration": "{motion.duration.fast}"
+    },
+    "states": {
+      "disabled": { "styles": { "cursor": "not-allowed", "opacity": "{opacity.disabled}" } }
+    },
+    "modifiers": [
+      {
+        "prop": "variant",
+        "value": "primary",
+        "class": "primary",
+        "styles": { "background-color": "{color.action.primary}", "color": "{color.text.on-action}" },
+        "states": { "hover": { "styles": { "background-color": "{color.action.primary-hover}" } } }
+      },
+      {
+        "prop": "variant",
+        "value": "secondary",
+        "class": "secondary",
+        "styles": {
+          "background-color": "{color.action.secondary}",
+          "color": "{color.text.default}",
+          "border-color": "{color.border.default}"
+        },
+        "states": { "hover": { "styles": { "background-color": "{color.action.secondary-hover}" } } }
+      },
+      {
+        "prop": "size",
+        "value": "sm",
+        "class": "sm",
+        "styles": { "font-size": "{font.size.xs}", "padding": ["{size.spacing.xs}", "{size.spacing.md}"] }
+      },
+      {
+        "prop": "size",
+        "value": "md",
+        "class": "md",
+        "styles": { "font-size": "{font.size.sm}", "padding": ["{size.spacing.sm}", "{size.spacing.lg}"] }
+      }
+    ],
+    "children": [
+      {
+        "node": "element",
+        "tag": "span",
+        "part": "label",
+        "styles": { "white-space": "nowrap", "text-align": "center" },
+        "children": [{ "node": "text", "prop": "label" }]
+      }
+    ]
+  }
+}

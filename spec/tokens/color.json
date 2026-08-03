@@ -1,0 +1,80 @@
+{
+  "$schema": "../schemas/tokens.schema.json",
+  "$description": "Color tokens. color.base.* holds the only literal color values in the entire system; every other color is an alias, so re-theming is a base-scale edit.",
+  "color": {
+    "$type": "color",
+    "base": {
+      "$description": "Raw palette. Not for direct use in components - alias it semantically first.",
+      "white": { "$value": "#ffffff" },
+      "black": { "$value": "#0b0d12" },
+      "neutral": {
+        "50": { "$value": "#f7f8fa" },
+        "100": { "$value": "#eceef2" },
+        "200": { "$value": "#d8dce4" },
+        "400": { "$value": "#9aa3b2" },
+        "700": { "$value": "#4b5565" },
+        "900": { "$value": "#1a202c" }
+      },
+      "blue": {
+        "100": { "$value": "#dbeafe" },
+        "600": { "$value": "#1d4ed8" },
+        "700": { "$value": "#1739ac" }
+      },
+      "green": {
+        "100": { "$value": "#dcfce7" },
+        "600": { "$value": "#15803d" }
+      },
+      "amber": {
+        "100": { "$value": "#fef3c7" },
+        "700": { "$value": "#a16207" }
+      },
+      "red": {
+        "100": { "$value": "#fee2e2" },
+        "600": { "$value": "#dc2626" },
+        "700": { "$value": "#b91c1c" }
+      }
+    },
+    "surface": {
+      "default": { "$value": "{color.base.white}" },
+      "muted": { "$value": "{color.base.neutral.50}" },
+      "inverse": { "$value": "{color.base.neutral.900}" }
+    },
+    "text": {
+      "default": { "$value": "{color.base.neutral.900}" },
+      "muted": { "$value": "{color.base.neutral.700}" },
+      "on-action": { "$value": "{color.base.white}" },
+      "inverse": { "$value": "{color.base.white}" }
+    },
+    "border": {
+      "default": { "$value": "{color.base.neutral.200}" },
+      "strong": { "$value": "{color.base.neutral.400}" }
+    },
+    "action": {
+      "primary": { "$value": "{color.base.blue.600}" },
+      "primary-hover": { "$value": "{color.base.blue.700}" },
+      "secondary": { "$value": "{color.base.neutral.100}" },
+      "secondary-hover": { "$value": "{color.base.neutral.200}" }
+    },
+    "info": {
+      "default": { "$value": "{color.base.blue.600}" },
+      "surface": { "$value": "{color.base.blue.100}" }
+    },
+    "success": {
+      "default": { "$value": "{color.base.green.600}" },
+      "surface": { "$value": "{color.base.green.100}" }
+    },
+    "warning": {
+      "default": { "$value": "{color.base.amber.700}" },
+      "surface": { "$value": "{color.base.amber.100}" }
+    },
+    "danger": {
+      "default": { "$value": "{color.base.red.600}" },
+      "strong": { "$value": "{color.base.red.700}" },
+      "surface": { "$value": "{color.base.red.100}" }
+    },
+    "neutral": {
+      "default": { "$value": "{color.base.neutral.700}" },
+      "surface": { "$value": "{color.base.neutral.100}" }
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "$schema": "../schemas/component.schema.json",
+  "id": "cmp.card",
+  "name": "card",
+  "level": "molecule",
+  "description": "Surface grouping a heading, body text and an optional action button.",
+  "props": {
+    "action_label": { "type": "string", "default": null, "description": "When set, the card renders a button." },
+    "action_variant": { "type": "enum", "values": ["primary", "secondary"], "default": "primary" },
+    "tone": { "type": "enum", "values": ["default", "muted"], "default": "default" }
+  },
+  "composition": ["button"],
+  "anatomy": {
+    "node": "element",
+    "tag": "article",
+    "styles": {
+      "display": "flex",
+      "flex-direction": "column",
+      "gap": "{size.spacing.md}",
+      "padding": "{size.spacing.xl}",
+      "border-radius": "{size.radius.md}",
+      "border-style": "solid",
+      "border-width": "{size.border.thin}",
+      "border-color": "{color.border.default}",
+      "font-family": "{font.family.sans}",
+      "color": "{color.text.default}"
+    },
+    "modifiers": [
+      { "prop": "tone", "value": "default", "class": "default", "styles": { "background-color": "{color.surface.default}" } },
+      { "prop": "tone", "value": "muted", "class": "muted", "styles": { "background-color": "{color.surface.muted}" } }
+    ],
+    "children": [
+      {
+        "node": "element",
+        "tag": "h3",
+        "part": "heading",
+        "when": { "slot": "heading", "filled": true },
+        "styles": {
+          "margin": "{size.spacing.none}",
+          "font-size": "{font.size.lg}",
+          "font-weight": "{font.weight.bold}",
+          "line-height": "{font.line-height.tight}"
+        },
+        "children": [{ "node": "slot", "name": "heading", "description": "Card title text." }]
+      },
+      {
+        "node": "element",
+        "tag": "div",
+        "part": "body",
+        "styles": {
+          "display": "flex",
+          "flex-direction": "column",
+          "gap": "{size.spacing.sm}",
+          "font-size": "{font.size.sm}",
+          "line-height": "{font.line-height.normal}",
+          "color": "{color.text.muted}"
+        },
+        "children": [{ "node": "slot", "name": "default", "description": "Body text." }]
+      },
+      {
+        "node": "element",
+        "tag": "div",
+        "part": "actions",
+        "when": { "prop": "action_label", "truthy": true },
+        "styles": { "display": "flex", "gap": "{size.spacing.sm}", "justify-content": "flex-start" },
+        "children": [
+          {
+            "node": "component",
+            "ref": "button",
+            "props": {
+              "label": { "$prop": "action_label" },
+              "variant": { "$prop": "action_variant" },
+              "size": "md"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

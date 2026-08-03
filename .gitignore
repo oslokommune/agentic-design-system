@@ -6,3 +6,9 @@
 # Python
 __pycache__/
 *.pyc
+.venv/
+.pytest_cache/
+
+# Compiler output (always regenerable from spec/)
+/build/
+/demo/build/

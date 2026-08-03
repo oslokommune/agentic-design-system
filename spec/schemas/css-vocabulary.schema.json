@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-system.local/schemas/css-vocabulary.schema.json",
+  "title": "Closed CSS vocabulary",
+  "description": "The set of CSS properties component specs may use, the token types each property accepts, and the enumerated keywords allowed as non-token values. Anything not listed here is a hard compile error.",
+  "type": "object",
+  "required": ["properties"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "$description": { "type": "string" },
+    "states": {
+      "description": "Pseudo-state selectors component nodes may declare styles for.",
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z][a-z-]*$" },
+      "uniqueItems": true
+    },
+    "properties": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z-]+$" },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "token_types": {
+            "type": "array",
+            "items": { "enum": ["color", "dimension", "fontFamily", "fontWeight", "number", "duration"] },
+            "uniqueItems": true
+          },
+          "keywords": {
+            "type": "array",
+            "items": { "type": "string", "pattern": "^[a-zA-Z][a-zA-Z-]*$" },
+            "uniqueItems": true
+          },
+          "multi": {
+            "description": "Whether a list of values (CSS shorthand) is allowed.",
+            "type": "boolean"
+          },
+          "$description": { "type": "string" }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,71 @@
+{
+  "$schema": "../../../spec/schemas/component.schema.json",
+  "id": "cmp.promo-banner",
+  "name": "promo-banner",
+  "level": "molecule",
+  "description": "Demo-only component. Exists to exercise the escape hatch: the campaign visual is not expressible in the token vocabulary yet, so it uses one `override` node.",
+  "props": {
+    "headline": { "type": "string", "required": true },
+    "cta_label": { "type": "string", "required": true },
+    "note": { "type": "string", "default": null }
+  },
+  "composition": ["button", "alert"],
+  "anatomy": {
+    "node": "element",
+    "tag": "section",
+    "styles": {
+      "display": "flex",
+      "flex-direction": "column",
+      "gap": "{size.spacing.md}",
+      "border-radius": "{size.radius.md}",
+      "overflow": "hidden",
+      "font-family": "{font.family.sans}"
+    },
+    "children": [
+      {
+        "node": "override",
+        "id": "ovr.promo-banner.campaign-gradient",
+        "reason": "Campaign gradient + drop shadow cannot be expressed with the current token types (no gradient or shadow tokens exist). Retire once gradient/shadow token types land; owner: design-systems, review 2026-Q4.",
+        "tag": "div",
+        "part": "canvas",
+        "css": {
+          "background": "linear-gradient(135deg, #ff0080 0%, #7928ca 100%)",
+          "box-shadow": "0 8px 24px rgba(121, 40, 202, 0.35)",
+          "padding": "2rem",
+          "display": "flex",
+          "flex-direction": "column",
+          "gap": "1rem",
+          "align-items": "flex-start"
+        },
+        "attrs": { "data-campaign": "q3" },
+        "children": [
+          {
+            "node": "element",
+            "tag": "h2",
+            "part": "headline",
+            "styles": {
+              "margin": "{size.spacing.none}",
+              "font-size": "{font.size.xl}",
+              "font-weight": "{font.weight.bold}",
+              "line-height": "{font.line-height.tight}",
+              "color": "{color.text.inverse}"
+            },
+            "children": [{ "node": "text", "prop": "headline" }]
+          },
+          {
+            "node": "component",
+            "ref": "button",
+            "props": { "label": { "$prop": "cta_label" }, "variant": "secondary", "size": "md" }
+          }
+        ]
+      },
+      {
+        "node": "component",
+        "ref": "alert",
+        "when": { "prop": "note", "truthy": true },
+        "props": { "variant": "info" },
+        "slots": { "default": [{ "node": "text", "prop": "note" }] }
+      }
+    ]
+  }
+}

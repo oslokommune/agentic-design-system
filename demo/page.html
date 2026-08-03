@@ -1,0 +1,79 @@
+{% load ds %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Design system demo - compiled from spec</title>
+  <link rel="stylesheet" href="build/ds/static/ds/tokens.css">
+  <link rel="stylesheet" href="build/ds/static/ds/components.css">
+  <style>
+    /* Host page chrome only. Not part of the design system: this page is the
+       consumer, and consumers are allowed their own layout CSS. */
+    body { margin: 0; padding: 2rem; background: #fbfbfd; font-family: system-ui, sans-serif; }
+    h1 { font-size: 1.5rem; }
+    h2.section { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: #6b7280; margin: 2rem 0 0.75rem; }
+    .row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: flex-start; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+    main { max-width: 60rem; margin: 0 auto; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Design system demo</h1>
+  <p>Every element below was generated from <code>spec/</code> by <code>ds-compile</code>.</p>
+
+  <h2 class="section">Atom: button</h2>
+  <div class="row">
+    {% ds_button variant="primary" label="Save" %}
+    {% ds_button variant="secondary" label="Cancel" %}
+    {% ds_button variant="primary" size="sm" label="Small" %}
+    {% ds_button variant="secondary" label="Disabled" disabled=True %}
+    {% ds_button variant="primary" label=dynamic_label %}
+  </div>
+
+  <h2 class="section">Atom: tag</h2>
+  <div class="row">
+    {% ds_tag label="Neutral" %}
+    {% ds_tag label="Info" tone="info" %}
+    {% ds_tag label="Success" tone="success" %}
+    {% ds_tag label="Danger" tone="danger" %}
+  </div>
+
+  <h2 class="section">Atom: alert (slots: icon, default)</h2>
+  <div class="grid">
+    {% ds_alert variant="info" title="Heads up" %}
+      {% ds_slot "icon" %}i{% end_ds_slot %}
+      Deploys are paused while the release train runs.
+    {% end_ds_alert %}
+    {% ds_alert variant="success" %}Spec compiled with zero violations.{% end_ds_alert %}
+    {% ds_alert variant="warning" title="Token drift" %}
+      {% ds_slot "icon" %}!{% end_ds_slot %}
+      Two colour tokens are near-duplicates and should be consolidated.
+    {% end_ds_alert %}
+    {% ds_alert variant="danger" title="Build failed" %}
+      {% ds_slot "icon" %}x{% end_ds_slot %}
+      A component used a raw hex value.
+    {% end_ds_alert %}
+  </div>
+
+  <h2 class="section">Molecule: card (composes button by reference)</h2>
+  <div class="grid">
+    {% ds_card action_label="Open spec" %}
+      {% ds_slot "heading" %}Closed data spec{% end_ds_slot %}
+      Every design value is a token reference. If it compiles, it is compliant.
+    {% end_ds_card %}
+    {% ds_card tone="muted" action_label="Read report" action_variant="secondary" %}
+      {% ds_slot "heading" %}One escape hatch{% end_ds_slot %}
+      Overrides are legal, loud and enumerable - see <code>overrides-report.json</code>.
+    {% end_ds_card %}
+    {% ds_card %}
+      {% ds_slot "heading" %}No action{% end_ds_slot %}
+      Omitting <code>action_label</code> removes the whole actions part of the anatomy.
+    {% end_ds_card %}
+  </div>
+
+  <h2 class="section">The one override (demo spec only)</h2>
+  {% ds_promo_banner headline="Autumn campaign" cta_label="See the offer" note="This banner contains the only override in the system." %}
+</main>
+</body>
+</html>

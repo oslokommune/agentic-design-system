@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-system.local/schemas/tokens.schema.json",
+  "title": "Design token file (W3C Design Tokens Community Group format)",
+  "description": "A token file is a tree of groups and tokens. Tokens are the ONLY place in the spec where literal values (hex colors, rem/px dimensions, numbers) may appear.",
+  "type": "object",
+  "properties": {
+    "$schema": { "type": "string" },
+    "$description": { "type": "string" },
+    "$type": { "$ref": "#/$defs/type" },
+    "$extensions": { "type": "object" }
+  },
+  "patternProperties": {
+    "^[a-z0-9][a-z0-9-]*$": { "$ref": "#/$defs/node" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "type": {
+      "description": "Subset of DTCG $type values supported by the compiler.",
+      "enum": ["color", "dimension", "fontFamily", "fontWeight", "number", "duration"]
+    },
+    "node": {
+      "oneOf": [{ "$ref": "#/$defs/token" }, { "$ref": "#" }]
+    },
+    "token": {
+      "type": "object",
+      "required": ["$value"],
+      "properties": {
+        "$value": {
+          "description": "Either a literal value or an alias of the form {group.name}.",
+          "type": ["string", "number", "array"]
+        },
+        "$type": { "$ref": "#/$defs/type" },
+        "$description": { "type": "string" },
+        "$deprecated": { "type": "boolean" },
+        "$extensions": { "type": "object" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

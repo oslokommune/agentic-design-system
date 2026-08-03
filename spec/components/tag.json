@@ -1,0 +1,55 @@
+{
+  "$schema": "../schemas/component.schema.json",
+  "id": "cmp.tag",
+  "name": "tag",
+  "level": "atom",
+  "description": "Small inline label / badge.",
+  "props": {
+    "label": { "type": "string", "required": true },
+    "tone": { "type": "enum", "values": ["neutral", "info", "success", "danger"], "default": "neutral" }
+  },
+  "composition": [],
+  "anatomy": {
+    "node": "element",
+    "tag": "span",
+    "styles": {
+      "display": "inline-flex",
+      "align-items": "center",
+      "gap": "{size.spacing.xs}",
+      "padding": ["{size.spacing.xs}", "{size.spacing.sm}"],
+      "border-radius": "{size.radius.pill}",
+      "font-family": "{font.family.sans}",
+      "font-size": "{font.size.xs}",
+      "font-weight": "{font.weight.medium}",
+      "line-height": "{font.line-height.tight}",
+      "white-space": "nowrap"
+    },
+    "modifiers": [
+      {
+        "prop": "tone",
+        "value": "neutral",
+        "class": "neutral",
+        "styles": { "background-color": "{color.neutral.surface}", "color": "{color.neutral.default}" }
+      },
+      {
+        "prop": "tone",
+        "value": "info",
+        "class": "info",
+        "styles": { "background-color": "{color.info.surface}", "color": "{color.info.default}" }
+      },
+      {
+        "prop": "tone",
+        "value": "success",
+        "class": "success",
+        "styles": { "background-color": "{color.success.surface}", "color": "{color.success.default}" }
+      },
+      {
+        "prop": "tone",
+        "value": "danger",
+        "class": "danger",
+        "styles": { "background-color": "{color.danger.surface}", "color": "{color.danger.strong}" }
+      }
+    ],
+    "children": [{ "node": "text", "prop": "label" }]
+  }
+}

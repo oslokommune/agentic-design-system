@@ -1,0 +1,16 @@
+{
+  "$schema": "../schemas/tokens.schema.json",
+  "$description": "Non-visual-scale effect tokens: opacity steps and motion durations.",
+  "opacity": {
+    "$type": "number",
+    "full": { "$value": 1 },
+    "disabled": { "$value": 0.5 }
+  },
+  "motion": {
+    "duration": {
+      "$type": "duration",
+      "fast": { "$value": "120ms" },
+      "normal": { "$value": "200ms" }
+    }
+  }
+}

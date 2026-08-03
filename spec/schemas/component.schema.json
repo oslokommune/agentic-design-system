@@ -1,0 +1,276 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://design-system.local/schemas/component.schema.json",
+  "title": "Design system component spec",
+  "description": "One component per file. Every design value is a token reference; every component reference resolves to another spec entry. The only escape hatch is the `override` node.",
+  "type": "object",
+  "required": ["id", "name", "level", "anatomy"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": {
+      "description": "Stable machine identifier. Never reused, never renamed.",
+      "type": "string",
+      "pattern": "^cmp\\.[a-z][a-z0-9-]*$"
+    },
+    "name": {
+      "description": "Public name. Drives the template tag (ds_<name>), template file and CSS block.",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "level": { "enum": ["atom", "molecule", "organism"] },
+    "description": { "type": "string" },
+    "props": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z][a-z0-9_]*$" },
+      "additionalProperties": { "$ref": "#/$defs/prop" }
+    },
+    "composition": {
+      "description": "Names of components this one references. Must match the component nodes found in anatomy exactly.",
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+      "uniqueItems": true
+    },
+    "anatomy": { "$ref": "#/$defs/element" }
+  },
+  "$defs": {
+    "prop": {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "enum": ["string", "boolean", "number", "enum"] },
+        "values": {
+          "type": "array",
+          "items": { "type": ["string", "number", "boolean"] },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "default": { "type": ["string", "number", "boolean", "null"] },
+        "required": { "type": "boolean" },
+        "description": { "type": "string" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "type": { "const": "enum" } }, "required": ["type"] },
+          "then": { "required": ["values"] },
+          "else": { "not": { "required": ["values"] } }
+        }
+      ]
+    },
+    "tag": {
+      "description": "Closed set of HTML elements the system may emit.",
+      "enum": [
+        "a", "article", "aside", "button", "code", "div", "em", "figcaption", "figure",
+        "footer", "h1", "h2", "h3", "h4", "h5", "h6", "header", "img", "label", "li",
+        "nav", "ol", "p", "pre", "section", "small", "span", "strong", "svg", "time", "ul"
+      ]
+    },
+    "styles": {
+      "description": "Declaration block. Values must be token references ({group.name}), enumerated keywords from the CSS vocabulary, or lists of those.",
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z-]+$" },
+      "additionalProperties": {
+        "oneOf": [
+          { "type": "string", "minLength": 1 },
+          { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1 }
+        ]
+      }
+    },
+    "states": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z][a-z-]*$" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["styles"],
+        "additionalProperties": false,
+        "properties": { "styles": { "$ref": "#/$defs/styles" } }
+      }
+    },
+    "condition": {
+      "description": "Renders the node only when the condition holds.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "prop": { "type": "string" },
+        "value": { "type": ["string", "number", "boolean"] },
+        "truthy": { "const": true },
+        "slot": { "type": "string" },
+        "filled": { "const": true }
+      },
+      "oneOf": [
+        { "required": ["prop", "value"], "not": { "anyOf": [{ "required": ["truthy"] }, { "required": ["slot"] }] } },
+        { "required": ["prop", "truthy"], "not": { "anyOf": [{ "required": ["value"] }, { "required": ["slot"] }] } },
+        { "required": ["slot", "filled"], "not": { "required": ["prop"] } }
+      ]
+    },
+    "attrs": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z][a-z0-9-]*$" },
+      "additionalProperties": {
+        "oneOf": [
+          { "type": ["string", "number", "boolean"] },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["$prop"],
+            "properties": { "$prop": { "type": "string" } }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["$flag"],
+            "properties": { "$flag": { "type": "string" } }
+          }
+        ]
+      }
+    },
+    "modifier": {
+      "description": "Prop-keyed variation. Emits a BEM modifier class on the component root.",
+      "type": "object",
+      "required": ["prop", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "prop": { "type": "string" },
+        "value": { "type": ["string", "number", "boolean"] },
+        "class": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "styles": { "$ref": "#/$defs/styles" },
+        "states": { "$ref": "#/$defs/states" }
+      },
+      "anyOf": [{ "required": ["styles"] }, { "required": ["states"] }]
+    },
+    "node": {
+      "description": "Discriminated on \"node\" so validation errors point at the real problem.",
+      "type": "object",
+      "required": ["node"],
+      "properties": {
+        "node": { "enum": ["element", "text", "slot", "component", "override"] }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "node": { "const": "element" } }, "required": ["node"] },
+          "then": { "$ref": "#/$defs/element" }
+        },
+        {
+          "if": { "properties": { "node": { "const": "text" } }, "required": ["node"] },
+          "then": { "$ref": "#/$defs/text" }
+        },
+        {
+          "if": { "properties": { "node": { "const": "slot" } }, "required": ["node"] },
+          "then": { "$ref": "#/$defs/slot" }
+        },
+        {
+          "if": { "properties": { "node": { "const": "component" } }, "required": ["node"] },
+          "then": { "$ref": "#/$defs/componentRef" }
+        },
+        {
+          "if": { "properties": { "node": { "const": "override" } }, "required": ["node"] },
+          "then": { "$ref": "#/$defs/override" }
+        }
+      ]
+    },
+    "element": {
+      "type": "object",
+      "required": ["node", "tag"],
+      "additionalProperties": false,
+      "properties": {
+        "node": { "const": "element" },
+        "tag": { "$ref": "#/$defs/tag" },
+        "part": {
+          "description": "BEM element name. Omit on the root node.",
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "attrs": { "$ref": "#/$defs/attrs" },
+        "styles": { "$ref": "#/$defs/styles" },
+        "states": { "$ref": "#/$defs/states" },
+        "modifiers": { "type": "array", "items": { "$ref": "#/$defs/modifier" } },
+        "when": { "$ref": "#/$defs/condition" },
+        "children": { "type": "array", "items": { "$ref": "#/$defs/node" } }
+      }
+    },
+    "text": {
+      "type": "object",
+      "required": ["node"],
+      "additionalProperties": false,
+      "properties": {
+        "node": { "const": "text" },
+        "prop": { "type": "string" },
+        "literal": { "type": "string" },
+        "when": { "$ref": "#/$defs/condition" }
+      },
+      "oneOf": [
+        { "required": ["prop"], "not": { "required": ["literal"] } },
+        { "required": ["literal"], "not": { "required": ["prop"] } }
+      ]
+    },
+    "slot": {
+      "type": "object",
+      "required": ["node", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "node": { "const": "slot" },
+        "name": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "description": { "type": "string" },
+        "when": { "$ref": "#/$defs/condition" }
+      }
+    },
+    "componentRef": {
+      "type": "object",
+      "required": ["node", "ref"],
+      "additionalProperties": false,
+      "properties": {
+        "node": { "const": "component" },
+        "ref": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+        "props": {
+          "type": "object",
+          "propertyNames": { "pattern": "^[a-z][a-z0-9_]*$" },
+          "additionalProperties": {
+            "oneOf": [
+              { "type": ["string", "number", "boolean"] },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["$prop"],
+                "properties": { "$prop": { "type": "string" } }
+              }
+            ]
+          }
+        },
+        "slots": {
+          "description": "Slot name -> child nodes, for composing container components.",
+          "type": "object",
+          "propertyNames": { "pattern": "^[a-z][a-z0-9_]*$" },
+          "additionalProperties": { "type": "array", "items": { "$ref": "#/$defs/node" } }
+        },
+        "when": { "$ref": "#/$defs/condition" }
+      }
+    },
+    "override": {
+      "description": "THE ONLY ESCAPE HATCH. Carries raw CSS/attrs that the spec vocabulary cannot express. Compiles, but is recorded in overrides-report.json.",
+      "type": "object",
+      "required": ["node", "id", "reason", "tag"],
+      "additionalProperties": false,
+      "properties": {
+        "node": { "const": "override" },
+        "id": { "type": "string", "pattern": "^ovr\\.[a-z0-9][a-z0-9.-]*$" },
+        "reason": {
+          "description": "Why the system cannot express this yet, and what would retire the override.",
+          "type": "string",
+          "minLength": 20
+        },
+        "tag": { "$ref": "#/$defs/tag" },
+        "part": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+        "css": {
+          "description": "Raw CSS declarations. Literals allowed here and nowhere else.",
+          "type": "object",
+          "propertyNames": { "pattern": "^[a-z-]+$" },
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        },
+        "attrs": { "$ref": "#/$defs/attrs" },
+        "when": { "$ref": "#/$defs/condition" },
+        "children": { "type": "array", "items": { "$ref": "#/$defs/node" } }
+      }
+    }
+  }
+}
