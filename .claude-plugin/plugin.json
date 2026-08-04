@@ -1,9 +1,11 @@
 {
   "name": "agentic-design-system",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Operate an agent-run design system: author and compile a closed JSON spec (tokens, components, one visible override escape hatch) and run its lifecycle loops - expand the spec from demand, contract it toward minimality.",
   "author": {
     "name": "Sondre Engebråten"
   },
+  "homepage": "https://github.com/oslokommune/agentic-design-system",
+  "repository": "https://github.com/oslokommune/agentic-design-system",
   "license": "MIT"
 }

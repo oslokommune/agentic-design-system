@@ -4,6 +4,17 @@ The source of truth is **data, not code**: a JSON spec (`spec/`) describing toke
 components. A compiler (`ds-compile`) turns that spec into a consumable Django app.
 Nobody hand-writes CSS or templates; you edit the spec and recompile.
 
+## Install the Claude Code plugin
+
+```bash
+claude plugin marketplace add oslokommune/claude-marketplace-experimental
+claude plugin install agentic-design-system@dig-experimental
+```
+
+Then add a `ds.config.json` at your project root pointing the skills at your layout
+(see [`ds.config.json`](ds.config.json) in this repo for the reference shape). The
+skills activate on their own when a task touches the spec or the loops.
+
 ## The Claude Code plugin
 
 This repo doubles as the **agentic-design-system** plugin (`.claude-plugin/`,
